@@ -3,7 +3,8 @@ services:
     name: cal.com
     env: node
     plan: free # Or your desired plan
-    buildCommand: "yarn install && yarn build"
+    # Run Prisma migrations before build to ensure DB schema exists at runtime
+    buildCommand: "yarn install && yarn workspace @calcom/prisma db-deploy && yarn build"
     startCommand: "yarn start"
     healthCheckPath: /api/health
     envVars:
@@ -14,9 +15,6 @@ services:
           property: connectionString
       - key: NEXTAUTH_URL
         generateValue: true
-      - key: NEXT_PUBLIC_WEBAPP_URL
-        sync: false
-        value: ${process.env.RENDER_EXTERNAL_URL}
       - key: NEXTAUTH_SECRET
         generateValue: true
       - key: CALENDSO_ENCRYPTION_KEY
