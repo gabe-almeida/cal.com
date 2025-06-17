@@ -3,7 +3,7 @@ services:
     name: cal.com
     env: node
     plan: free # Or your desired plan
-    buildCommand: "yarn && yarn build"
+    buildCommand: "yarn install && yarn build"
     startCommand: "yarn start"
     healthCheckPath: /api/health
     envVars:
